@@ -14,51 +14,16 @@ public class PlayerData
 }
 
 /// <summary>
-/// Respuesta del endpoint que crea un mazo nuevo (parcial o completo).
-/// GET https://deckofcardsapi.com/api/deck/new/?cards=AS,2H,KD
-/// No trae el detalle de cada carta, solo confirma que el mazo se creó.
-/// </summary>
-[Serializable]
-public class NewDeckResponse
-{
-    public bool success;
-    public string deck_id;
-    public bool shuffled;
-    public int remaining;
-}
-
-/// <summary>
-/// Respuesta del endpoint que "extrae" (draw) cartas de un mazo ya creado.
-/// GET https://deckofcardsapi.com/api/deck/{deck_id}/draw/?count=3
-/// Este sí trae el detalle completo (value, suit, image) de cada carta.
-/// </summary>
-[Serializable]
-public class DrawCardsResponse
-{
-    public bool success;
-    public string deck_id;
-    public CardData[] cards;
-    public int remaining;
-}
-
-/// <summary>
-/// Una carta individual de la baraja de póker devuelta por la Deck of Cards API.
-/// value: "ACE", "2".."10", "JACK", "QUEEN", "KING"
-/// suit:  "SPADES", "HEARTS", "DIAMONDS", "CLUBS"
+/// Subconjunto de campos que nos interesan de la respuesta de la Rick and
+/// Morty API (https://rickandmortyapi.com/api/character/{id}). Cada
+/// "carta" de la baraja es en realidad un personaje: se muestra su nombre
+/// y su imagen. JsonUtility ignora silenciosamente el resto de los campos
+/// que no declaremos aquí (status, species, episodios, etc.).
 /// </summary>
 [Serializable]
 public class CardData
 {
-    public string code;
+    public int id;
+    public string name;
     public string image;
-    public CardImages images;
-    public string value;
-    public string suit;
-}
-
-[Serializable]
-public class CardImages
-{
-    public string svg;
-    public string png;
 }

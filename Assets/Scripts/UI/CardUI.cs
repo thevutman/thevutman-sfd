@@ -2,11 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
-using System.Globalization;
 
 /// <summary>
 /// Controla un único ítem de carta dentro de la grilla de la "baraja".
-/// Se instancia una vez por cada carta devuelta por la Deck of Cards API.
+/// Se instancia una vez por cada personaje devuelto por la Rick and Morty API.
 /// </summary>
 public class CardUI : MonoBehaviour
 {
@@ -15,14 +14,14 @@ public class CardUI : MonoBehaviour
     [SerializeField] private GameObject loadingIndicator;
 
     /// <summary>
-    /// Rellena la carta con los datos de la Deck of Cards API (valor, palo
-    /// e imagen) e inicia la descarga asíncrona de la imagen.
+    /// Rellena la carta con los datos de la Rick and Morty API (nombre e
+    /// imagen del personaje) e inicia la descarga asíncrona de la imagen.
     /// </summary>
     public void Setup(ApiManager apiManager, CardData card)
     {
         if (cardNameText != null)
         {
-            cardNameText.text = FormatName(card.value, card.suit);
+            cardNameText.text = card.name;
         }
 
         if (loadingIndicator != null)
@@ -48,14 +47,5 @@ public class CardUI : MonoBehaviour
                 if (loadingIndicator != null) loadingIndicator.SetActive(false);
             }
         );
-    }
-
-    /// <summary>Convierte value="KING", suit="DIAMONDS" en "King of Diamonds".</summary>
-    private string FormatName(string value, string suit)
-    {
-        if (string.IsNullOrEmpty(value) || string.IsNullOrEmpty(suit)) return "???";
-        string prettyValue = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(value.ToLowerInvariant());
-        string prettySuit = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(suit.ToLowerInvariant());
-        return $"{prettyValue} of {prettySuit}";
     }
 }
